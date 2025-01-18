@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAlertContext } from "../../contexts/AlertContext";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const ShowPage = () => {
@@ -10,6 +11,8 @@ const ShowPage = () => {
 
     const imagePath = post?.image.replace("img/", "");
 
+    const { setError } = useAlertContext();
+
     useEffect(() => {
         axios.get(`${apiUrl}/posts/${id}`).then((resp) => {
             setPost(resp.data);
@@ -17,8 +20,9 @@ const ShowPage = () => {
             if (err.status === 404) {
               navigate("/not-found");
             }
-          })
-    }, [id])
+            setError("Post non trovato");
+        })
+    }, [id, setError])
 
     return (
         <>

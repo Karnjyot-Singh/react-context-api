@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 import AppCard from "../../components/AppCard";
 import { Link } from "react-router-dom";
+import GlobalContext from "../../context/GlobalContext";
 
 
 const PostPage = () => {
@@ -13,22 +14,8 @@ const PostPage = () => {
     tags: []
   };
 
-  const [posts, setPosts] = useState([]);
+  const {posts, filterTags} = useContext(GlobalContext);
   const [tags, setTags] = useState([]);
-  const [filterTags, setFilterTags] = useState("all");
-  useEffect(() => {
-    getPosts();
-  }, [filterTags]);
-  const getPosts = () => {
-    let url = `${apiUrl}/posts`;
-    if (filterTags !== "all") {
-      url += `?tags=${filterTags}`;
-    }
-    axios.get(url).then((resp) => {
-      console.log(resp.data);
-      setPosts(resp.data);
-    })
-  };
 
   const cancella = (idDaCancellare) => {
     axios.delete(`${apiUrl}/posts/${idDaCancellare}`).then((resp) => {
