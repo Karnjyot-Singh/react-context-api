@@ -1,0 +1,9 @@
+nav .active {
+  color: rgb(12, 30, 59);
+}
+nav {
+  text-align: center;
+}
+nav ul {
+ list-style: none;
+}
